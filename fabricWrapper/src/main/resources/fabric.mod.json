@@ -1,9 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "${mod_id}-wrapper",
+  "id": "${mod_id}",
   "version": "${mod_version}",
-  "name": "${mod_name} wrapper",
-  "description": "${mod_name} wrapper",
+  "icon": "assets/${mod_id}/icon.png",
+  "name": "${mod_name}",
+  "description": "${mod_name}",
   "authors": [
     "plusls"
   ],
@@ -13,15 +14,19 @@
     "sources": "${mod_sources}"
   },
   "license": "${mod_license}",
-  "icon": "assets/${mod_id}-wrapper/icon.png",
   "environment": "*",
+  "entrypoints": {
+    "modmenu": [
+      "com.plusls.template_mod.compat.modmenu.WrapperModMenuApiImpl"
+    ]
+  },
   "custom": {
-    "modmenu:api": true,
     "modmenu": {
       "badges": [
         "library"
       ],
       "parent": "${mod_id}"
     }
-  }
+  },
+  "jars": ${sub_jars}
 }

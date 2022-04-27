@@ -93,13 +93,6 @@ jobs:
           path: gradle.properties
           property: mod_version
 
-      - name: Read Properties minecraft_version
-        id: minecraft_version
-        uses: christian-draeger/read-properties@1.0.1
-        with:
-          path: ${{ format('versions/{0}/gradle.properties', matrix.subproject_dir) }}
-          property: minecraft_version
-
       - name: Publish Minecraft Mods
         uses: Kir-Antipov/mc-publish@v2.1
         with:
@@ -112,16 +105,14 @@ jobs:
           github-tag: ${{ steps.release_info.outputs.tag_name }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-          files-primary: ${{ format('build-artifacts/{0}/build/libs/!(*-@(dev|sources)).jar', matrix.subproject_dir) }}
+          files-primary: fabricWrapper/build/libs/!(*-@(dev|sources)).jar
           files-secondary: ''
 
-          name: ${{ format('FabricModTemplate v{0} for mc{1}', steps.mod_version.outputs.value, steps.minecraft_version.outputs.value) }}
-          version: ${{ format('mc{0}-v{1}', steps.minecraft_version.outputs.value, steps.mod_version.outputs.value) }}
           version-type: release
           changelog: ${{ format('{0}{1}', github.event.release.body, steps.get_release.outputs.body) }}  # one of them should be an empty string (null)
 
           loaders: fabric
-          game-versions: ${{ matrix.game_versions }}
+          game-versions: "1.14.4\n1.15.2\n1.16.5\n1.17.1\n1.18.2"
           version-resolver: exact
 
           retry-attempts: 3

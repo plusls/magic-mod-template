@@ -1,9 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "${mod_id}",
+  "id": "${mod_id}-${minecraft_version_id}",
   "version": "${mod_version}",
-  "name": "${mod_name}",
-  "description": "${mod_name}",
+  "icon": "assets/${mod_id}/icon.png",
+  "name": "${mod_name} for ${minecraft_version}",
+  "description": "${mod_name} for ${minecraft_version}",
   "authors": [
     "plusls"
   ],
@@ -13,18 +14,29 @@
     "sources": "${mod_sources}"
   },
   "license": "${mod_license}",
-  "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       "com.plusls.template_mod.TemplateMod"
+    ],
+    "client": [
+      "com.plusls.template_mod.TemplateMod"
+    ],
+    "modmenu": [
+      "com.plusls.template_mod.compat.modmenu.ModMenuApiImpl"
     ]
   },
   "mixins": [
     "${mod_id}.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.7.1",
-    "minecraft": "${minecraft_dependency}"
+    "minecraft": "${minecraft_dependency}",
+    "magiclib-${minecraft_version_id}": ">=0.5.5"
+  },
+  "custom": {
+    "modmenu:parent": "${mod_id}",
+    "modmenu": {
+      "parent": "${mod_id}"
+    }
   }
 }

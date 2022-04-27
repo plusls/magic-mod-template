@@ -34,6 +34,7 @@ jobs:
       - name: Build with Gradle
         run: |
           chmod +x gradlew
+          ./gradlew preprocessResources
           ./gradlew build --no-daemon
         env:
           BUILD_ID: ${{ github.run_number }}
@@ -42,4 +43,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: build-artifacts
-          path: versions/*/build/libs/
+          path: fabricWrapper/build/libs/

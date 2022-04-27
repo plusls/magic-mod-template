@@ -1,0 +1,8 @@
+{
+  "${mod_id}.gui.title.configs": "${mod_name} - Config - Version: %s",
+  "${mod_id}.gui.button.tab.generic": "Generic",
+  "${mod_id}.config.generic.debug.name": "debug",
+  "${mod_id}.config.generic.debug.comment": "Display debug message",
+  "${mod_id}.config.generic.openConfigGui.name": "openConfigGui",
+  "${mod_id}.config.generic.openConfigGui.comment": "A hotkey to open the in-game Config GUI"
+}
