@@ -1,0 +1,92 @@
+plugins {
+    id("maven-publish")
+    id("fabric-loom").version("0.12-SNAPSHOT").apply(false)
+    // https://github.com/Juuxel/LoomQuiltflower
+    id("io.github.juuxel.loom-quiltflower").version("1.7.0").apply(false)
+    // https://github.com/ReplayMod/preprocessor
+    // https://github.com/Fallen-Breath/preprocessor
+    id("com.replaymod.preprocess").version("b7207cffa9")
+    id("org.ajoberstar.grgit").version("4.1.0")
+}
+
+preprocess {
+    def mc114 = createNode("1.14.4", 1_14_04, "mojang")
+    def mc115 = createNode("1.15.2", 1_15_02, "mojang")
+    def mc116 = createNode("1.16.5", 1_16_05, "mojang")
+    def mc117 = createNode("1.17.1", 1_17_01, "mojang")
+    def mc118 = createNode("1.18.2", 1_18_02, "mojang") // root
+    def mcSnapshot = createNode("snapshot", 1_19_00, "mojang")
+
+    mc114.link(mc115, null)
+    mc115.link(mc116, null)
+    mc116.link(mc117, null)
+    mc117.link(mc118, null)
+    mc118.link(mcSnapshot, null)
+}
+
+subprojects {
+    if (project.name ==  "fabricWrapper") {
+        apply plugin: "fabric-loom"
+        dependencies {
+            minecraft("com.mojang:minecraft:${project.minecraft_version}")
+            mappings(loom.officialMojangMappings())
+            parent.subprojects.collect {
+                if (it.name != "fabricWrapper") {
+                    include(it)
+                }
+            }
+        }
+        processResources {
+            inputs.property("version", version)
+            filesMatching("fabric.mod.json") {
+                expand(["mod_version" : project.version,
+                        "mod_id"      : project.mod_id,
+                        "mod_name"    : project.mod_name,
+                        "mod_homepage": project.mod_homepage,
+                        "mod_sources" : project.mod_sources,
+                        "mod_license" : project.mod_license,
+                ])
+            }
+        }
+    }
+//    jar {
+//        dependsOn(subprojects.collect {
+//            it.tasks.remapJar
+//        })
+//
+//        doFirst {
+//            copy {
+//                from {
+//                    subprojects.collect {
+//                        it.remapJar.outputs.files
+//                    }
+//                }
+//                into("build/tmp/submods/META-INF/jars")
+//            }
+//        }
+//
+//        from("LICENSE")
+//
+//        from("build/tmp/submods")
+//    }
+}
+
+task buildAndGather {
+    subprojects {
+        dependsOn project.name + ":build"
+    }
+    doFirst {
+        println "Gathering builds"
+        copy {
+            subprojects {
+                def libDir = project.projectDir.toPath().resolve("build/libs")
+                from(libDir) {
+                    include "*.jar"
+                    exclude "*-dev.jar", "*-sources.jar"
+                }
+                into "build/libs/"
+                duplicatesStrategy DuplicatesStrategy.INCLUDE
+            }
+        }
+    }
+}
