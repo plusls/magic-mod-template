@@ -31,7 +31,7 @@
   ],
   "depends": {
     "minecraft": "${minecraft_dependency}",
-    "magiclib-${minecraft_version_id}": ">=0.5.5"
+    "magiclib-${minecraft_version_id}": ">=0.5.14"
   },
   "custom": {
     "modmenu:parent": "${mod_id}",

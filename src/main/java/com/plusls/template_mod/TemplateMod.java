@@ -20,7 +20,7 @@ public class TemplateMod implements ModInitializer, ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     //#if MC > 11802
-    //$$ private static final String CURRENT_MOD_ID = MOD_ID + "-snapshot";
+    //$$ public static final String CURRENT_MOD_ID = MOD_ID + "-snapshot";
     //#elseif MC > 11701
     public static final String CURRENT_MOD_ID = MOD_ID + "-1_18_2";
     //#elseif MC > 11605

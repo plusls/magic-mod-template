@@ -73,7 +73,6 @@ processResources {
                 "minecraft_version"   : project.minecraft_version
         ])
     }
-    println("assets/${project.mod_id}/lang/*.json")
     filesMatching("assets/${project.mod_id}/lang/*.json") {
         expand([
                 "mod_id"  : project.mod_id,
