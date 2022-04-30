@@ -19,14 +19,6 @@
     "modmenu": [
       "com.plusls.template_mod.compat.modmenu.WrapperModMenuApiImpl"
     ]
-  },
-  "custom": {
-    "modmenu": {
-      "badges": [
-        "library"
-      ],
-      "parent": "${mod_id}"
-    }
-  },
+  }
   "jars": ${sub_jars}
 }
